@@ -1,0 +1,46 @@
+<div *ngIf="!isLoading" class="custom-container">
+  <div class="custom-row">
+    <div class="custom-col-4 search-text">
+      <h3>{{label.SearchMovieText}}</h3>
+    </div>
+    <div class="custom-col-8 searchbox-container">
+      <div class="custom-col-8">
+        <input #inputBox id="inputBox" [(ngModel)]="inputText" class="searchbox-input" type="search" />
+        <label *ngIf="inputBox.isInvalid" for="inputBox" style="color:red;">{{label.Text_Error}}</label>
+      </div>
+      <div class="custom-col-4">
+        <button (click)="searchMovies()" (keyup.enter)="searchMovies()" class="movie-button-search" type="button">{{label.Search_button}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="search-result-text" *ngIf="isMoviesPresent && !showMovieDetails">
+    <h3>{{label.Search_Results}}</h3>
+  </div>
+  <div class="search-result-text" *ngIf="showMovieDetails">
+    <h3>{{label.More_details_of_Movie}}</h3>
+  </div>
+  <div *ngIf="!isApiError" class="custom-row movie-container">
+    <div class="movie-item" *ngIf="isMoviesPresent && !showMovieDetails">
+      <div class="movie-details" *ngFor="let movie of moviesData;let i = index;">
+        <img alt="Image Not available" src={{imageUrl+imageSize.poster_sizes+movie.poster_path}} />
+        <div>
+          <div class="movie-detail-data"><b>{{label.Title}}</b> {{movie.title}}</div>
+          <div class="movie-detail-data"><b>{{label.Release_date}} </b> {{movie.release_date}}</div>
+          <div class="movie-detail-data"><b>{{label.Overview}} </b>{{movie.overview}}</div>
+          <div class="movie-detail-data"><b>{{label.Rating}} </b>{{movie.vote_average}}</div>
+          <button type="button" (click)="fetchMovieDetails(movie)" class="movie-button">{{label.Movie_Details_Button}}</button>
+        </div>
+      </div>
+    </div>
+    <app-moviedetails [movieDetails]="movieDetail" (hideDetails)="showMovieDetails = false;movieDetail=null;" [showDetails]="showMovieDetails"></app-moviedetails>
+  </div>
+  <div class="service-error" *ngIf="isApiError">
+    <h1>{{label.Service_Error}}</h1>
+  </div>
+</div>
+
+<div class="loading-data" *ngIf="isLoading">
+  <h1>{{label.Loading}}</h1>
+</div>
+
+

@@ -1,0 +1,35 @@
+<div class="movie-item-details" *ngIf="showDetails">
+  <div class="movie-detail-title">
+    <h2>{{movie.title}}</h2>
+    <h4 *ngIf="movie.tagline"> - {{movie.tagline}}</h4>
+  </div>
+  <div class="movie-details">
+    <img alt="Image Not available" src={{imageUrl+imageSize.backdrop_sizes+movie.backdrop_path}} />
+    <div>
+      <!--<div class="movie-detail-data"><b>Title:</b> {{movie.title}}</div>-->
+      <div class="movie-detail-data"><b>{{label.Release_date}} </b> {{movie.release_date}}</div>
+      <div class="movie-detail-data"><b>{{label.Overview}} </b>{{movie.overview}}</div>
+      <div class="movie-detail-data"><b>{{label.Rating}} </b>{{movie.vote_average}}</div>
+      <div class="movie-detail-data"><b>{{label.Budget}} </b>${{movie.budget|number}}</div>
+      <div class="movie-detail-data"><b>{{label.Revenue}} </b>${{movie.revenue|number}}</div>
+      <!--<div class="movie-detail-data"><b>Rating: </b>{{movie.vote_average}}</div>-->
+      <div *ngIf="movie.genres" class="movie-detail-data">
+        <b>{{label.Genre}}</b>
+        <span *ngFor="let genre of movie.genres">
+          {{genre.name}}
+        </span>
+      </div>
+      <div class="flex-display">
+        <div class="movie-detail-data">
+        <button type="button" (click)="openNewTab('IMDB')" class="movie-button">{{label.Imdb}}</button>
+        </div>
+        <div *ngIf="isVideoPresent" class="movie-detail-data">
+        <button type="button" (click)="openNewTab('YouTube')" class="movie-button">{{label.Trailer}}</button>
+        </div>
+        <div class="movie-detail-data">
+        <button type="button" (click)="goBack()" class="movie-button">{{label.Back}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
